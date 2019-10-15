@@ -6,9 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/hashicorp/terraform/config"
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
 var testProvider *schema.Provider
@@ -46,8 +45,7 @@ func accProvider() map[string]terraform.ResourceProvider {
 		"bootstrap_servers": bootstrapServers,
 	}
 
-	rawConfig, _ := config.NewRawConfig(raw)
-	_ = provider.Configure(terraform.NewResourceConfig(rawConfig))
+	terraform.NewResourceConfigRaw(raw)
 	testProvider = provider
 	return map[string]terraform.ResourceProvider{
 		"kafka": provider,
