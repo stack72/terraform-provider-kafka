@@ -3,7 +3,6 @@ package kafka
 import (
 	"log"
 	"os"
-	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -33,14 +32,8 @@ func testAccPreCheck(t *testing.T) {
 func accProvider() map[string]terraform.ResourceProvider {
 	log.Println("[INFO] Setting up override for a provider")
 	provider := Provider().(*schema.Provider)
-	bs := strings.Split(os.Getenv("KAFKA_BOOTSTRAP_SERVER"), ",")
-	bootstrapServers := []string{}
+	bootstrapServers := os.Getenv("KAFKA_BOOTSTRAP_SERVER")
 
-	for _, v := range bs {
-		if v != "" {
-			bootstrapServers = append(bootstrapServers, v)
-		}
-	}
 	raw := map[string]interface{}{
 		"bootstrap_servers": bootstrapServers,
 	}
